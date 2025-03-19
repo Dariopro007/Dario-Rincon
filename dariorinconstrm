@@ -48,4 +48,5 @@ with tab2:
     st.write(f"Recommended price range: ${price_range[0]:.2f} - ${price_range[1]:.2f}")
 
 st.sidebar.markdown("## Instructions")
+
 st.sidebar.info("Upload this code to Streamlit Cloud and submit the link on Moodle.")
