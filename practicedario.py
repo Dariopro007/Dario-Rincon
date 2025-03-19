@@ -46,6 +46,18 @@ with tab2:
     similar_listings = df[(df["neighborhood"] == selected_neighborhood) & (df["listing_type"] == selected_type) & (df["minimum_nights"] >= num_nights)]
     price_range = (similar_listings["price"].quantile(0.25), similar_listings["price"].quantile(0.75))
     st.write(f"Recommended price range: ${price_range[0]:.2f} - ${price_range[1]:.2f}")
+    fig5 = px.scatter(filtered_df, x="reviews_per_month", y="price", color="listing_type", title="Price vs Reviews per Month", color_discrete_sequence=["#3498DB"])
+    st.plotly_chart(fig5)
 
+    avg_price_neighborhood = filtered_df.groupby("neighborhood").agg({"price": "mean"}).reset_index()
+    fig6 = px.bar(avg_price_neighborhood, x="neighborhood", y="price", title="Average Price by Neighborhood", color_discrete_sequence=["#3498DB"])
+    st.plotly_chart(fig6)
+
+    if 'date' in df.columns:
+        df['date'] = pd.to_datetime(df['date'])
+        df['year'] = df['date'].dt.year
+        avg_nights_year = df.groupby('year').agg({"minimum_nights": "mean"}).reset_index()
+        fig7 = px.line(avg_nights_year, x="year", y="minimum_nights", title="Trend of Average Minimum Nights Over Time", color_discrete_sequence=["#3498DB"])
+        st.plotly_chart(fig7)
 st.sidebar.markdown("## Instructions")
 st.sidebar.info("Upload this code to Streamlit Cloud and submit the link on Moodle.")
